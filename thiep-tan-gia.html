@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Mời Tân Gia</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold: #c5a059;
+            --dark: #1a1a1a;
+            --border-color: #e8dfcc;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        ::-webkit-scrollbar { display: none; }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            padding: 40px 20px;
+        }
+
+        .hint-bar {
+            margin-bottom: 20px;
+            color: #888;
+            font-size: 13px;
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .card-wrapper {
+            width: 900px;
+            height: 750px;
+            position: relative;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.15);
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        @media (max-width: 900px) {
+            .card-wrapper {
+                height: auto;
+            }
+            .double-card {
+                flex-direction: column;
+            }
+            .panel {
+                height: 750px;
+            }
+        }
+
+        .card-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border: 1px solid var(--border-color);
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.9;
+        }
+
+        /* CSS cho 4 góc trang trí bằng PNG */
+        .corner-decoration {
+            position: absolute;
+            width: 180px; /* Bạn có thể chỉnh kích thước tùy ý */
+            height: 180px;
+            opacity: 0.65; /* Độ trong suốt nhẹ để sang trọng */
+            z-index: 9;
+            pointer-events: none;
+        }
+        .corner-top-left { top: 15px; left: 15px; }
+        .corner-top-right { top: 15px; right: 15px; transform: rotate(90deg); }
+        .corner-bottom-left { bottom: 15px; left: 15px; transform: rotate(270deg); }
+        .corner-bottom-right { bottom: 15px; right: 15px; transform: rotate(180deg); }
+
+        .double-card {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100%;
+        }
+
+        .panel {
+            width: 50%;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #faf8f3 0%, #fffdf8 100%),
+                        url('https://static.vecteezy.com/system/resources/previews/069/318/860/original/beige-marble-surface-with-golden-swirling-veins-in-a-realistic-pattern-ideal-for-sophisticated-and-premium-designs-photo.jpg') center/cover no-repeat;
+            background-blend-mode: overlay;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Panel trái */
+        .left-content {
+            padding: 60px 40px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 5;
+            flex: 1;
+        }
+
+        .left-title {
+            font-family: 'Great+Vibes', cursive;
+            font-size: 72px;
+            color: var(--gold);
+            line-height: 1.1;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+        }
+
+        .left-title::before {
+            content: '';
+            display: block;
+            width: 120px;
+            height: 50px;
+            margin: 0 auto 30px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 50"><path d="M60,5 Q20,25 5,45 M60,5 Q100,25 115,45" stroke="%23c5a059" stroke-width="2.5" fill="none"/></svg>') no-repeat center;
+            background-size: contain;
+            opacity: 0.8;
+        }
+
+        .left-photo {
+            width: 100%;
+            height: 320px;
+            padding: 0 40px;
+            margin: 20px 0;
+        }
+
+        .left-photo-item {
+            width: 100%;
+            height: 100%;
+            border: 2px solid rgba(197,160,89,0.3);
+            padding: 10px;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .left-photo-item:hover {
+            transform: scale(1.03);
+        }
+
+        .left-photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .left-guest-section {
+            margin-top: auto;
+            padding-bottom: 40px;
+        }
+
+        .left-invite-label {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .left-guest-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Panel phải */
+        .right-content {
+            padding: 80px 40px 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            z-index: 5;
+        }
+
+        .right-title-top {
+            font-size: 12px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .right-title-top::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 15px auto 0;
+            opacity: 0.8;
+        }
+
+        .right-host-section {
+            margin: 40px 0 30px;
+        }
+
+        .right-host-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .right-host-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .invite-desc {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 40px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        .info-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 5px; }
+        .info-item .value { font-size: 18px; font-weight: 600; color: var(--dark); }
+
+        .address-section { margin-bottom: 40px; }
+        .address-section b { color: var(--gold); text-transform: uppercase; font-size: 11px; letter-spacing: 1px; display: block; margin-bottom: 8px; }
+        .address-section span { font-size: 15px; color: #444; line-height: 1.6; display: block; }
+
+        .footer-msg {
+            margin-top: auto;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #666;
+            font-style: italic;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: none;
+            background: rgba(197, 160, 89, 0.15);
+            padding: 2px 5px;
+            border-radius: 4px;
+        }
+
+        input[type="file"] { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="hint-bar">
+    💡 Click vào ảnh để upload | Click chữ để chỉnh sửa nội dung | 4 góc đã có họa tiết vàng PNG đẹp
+</div>
+
+<div class="card-wrapper">
+    <!-- 4 góc trang trí bằng PNG xóa nền đẹp (gold floral corner) -->
+    <!-- Mình chọn một mẫu rất tinh tế và sang trọng, dễ rotate cho 4 góc -->
+    <img class="corner-decoration corner-top-left" src="https://static.vecteezy.com/system/resources/previews/026/791/924/original/gold-floral-corner-border-png.png" alt="Góc trên trái">
+    <img class="corner-decoration corner-top-right" src="https://static.vecteezy.com/system/resources/previews/026/791/924/original/gold-floral-corner-border-png.png" alt="Góc trên phải">
+    <img class="corner-decoration corner-bottom-left" src="https://static.vecteezy.com/system/resources/previews/026/791/924/original/gold-floral-corner-border-png.png" alt="Góc dưới trái">
+    <img class="corner-decoration corner-bottom-right" src="https://static.vecteezy.com/system/resources/previews/026/791/924/original/gold-floral-corner-border-png.png" alt="Góc dưới phải">
+
+    <div class="double-card">
+        <!-- Panel trái -->
+        <div class="panel left">
+            <div class="left-content">
+                <h1 class="left-title">Thiệp mời<br>Tân Gia</h1>
+
+                <div class="left-photo">
+                    <div class="left-photo-item" onclick="document.getElementById('photoInput').click()">
+                        <img id="housePhoto" src="https://livingasean.com/wp-content/uploads/2023/10/nha-be-house-tropical-space_1.jpg" alt="Ngôi nhà">
+                    </div>
+                </div>
+
+                <div class="left-guest-section">
+                    <p class="left-invite-label">Trân trọng kính mời</p>
+                    <p class="left-guest-name" contenteditable="true">Quý khách</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Panel phải -->
+        <div class="panel right">
+            <div class="right-content">
+                <p class="right-title-top">Trân trọng kính mời</p>
+
+                <div class="right-host-section">
+                    <p class="right-host-label">Gia đình</p>
+                    <p class="right-host-name" contenteditable="true">Nguyễn Văn A & Trần Thị B</p>
+                </div>
+
+                <p class="invite-desc">
+                    Đến dự buổi tiệc mừng Tân Gia<br>
+                    cùng gia đình chúng tôi
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <p class="label">Thời gian</p>
+                        <p class="value" contenteditable="true">18:00</p>
+                    </div>
+                    <div class="info-item">
+                        <p class="label">Ngày tháng</p>
+                        <p class="value" contenteditable="true">20.01.2026</p>
+                    </div>
+                </div>
+
+                <div class="address-section">
+                    <b>Địa chỉ tổ chức</b>
+                    <span contenteditable="true">Đông Trạch, Bố Trạch, Quảng Bình</span>
+                </div>
+
+                <div class="footer-msg">
+                    Sự hiện diện của Quý khách là niềm vinh hạnh lớn lao của gia đình!<br>
+                    Trân trọng kính mời!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="file" id="photoInput" accept="image/*">
+
+<script>
+    document.getElementById('photoInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                document.getElementById('housePhoto').src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>
